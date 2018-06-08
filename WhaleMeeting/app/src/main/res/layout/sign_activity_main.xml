@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    >
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            >
+
+
+            <ImageView
+                android:id="@+id/iv_head_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/head_bg"
+                android:fitsSystemWindows="true"
+                android:visibility="visible"
+                />
+
+            <include layout="@layout/include_title_transparent"
+                />
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_below="@+id/rl_title"
+                android:background="#fff"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="3dp"
+                app:contentPadding="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_line"
+                            android:layout_width="4dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/shape_cir_blue_line"
+                            />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_gravity="center_vertical"
+                            android:text="活动名称活动名称"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="14sp"
+
+                            />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="25dp"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            >
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:layout_gravity="center_vertical"
+                                android:text="参会人"
+                                android:textSize="13dp"
+                                android:textColor="@color/color_text_666"
+                                />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:layout_gravity="center_vertical"
+                                android:text="100"
+                                android:textColor="@color/color_text_333"
+                                android:textSize="13dp"
+                                />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="0.5dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:background="#CCCCCC"
+                            /> <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        >
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"
+                            android:text="参会人"
+                            android:textSize="13dp"
+                            android:textColor="@color/color_text_666"
+                            />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"
+                            android:text="0"
+                            android:textColor="@color/color_text_333"
+                            android:textSize="13dp"
+                            />
+                    </LinearLayout>
+
+                        <TextView
+                            android:layout_width="0.5dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:background="#CCCCCC"
+                            /> <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        >
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"
+                            android:text="到场率"
+                            android:textSize="13dp"
+                            android:textColor="@color/color_text_666"
+                            />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"
+                            android:text="0%"
+                            android:textColor="@color/color_text_333"
+                            android:textSize="13dp"
+                            />
+                    </LinearLayout>
+
+
+
+
+                    </LinearLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        >
+
+                        <TextView
+                            android:id="@+id/tv_sign_select"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="默认签到点"
+                            android:layout_centerHorizontal="true"
+                            android:textSize="13sp"
+                            android:textColor="@color/color_text_666"
+                            />
+
+                        <ImageView
+                            android:layout_toRightOf="@+id/tv_sign_select"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/ic_sign_down"
+                            />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+
+
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            />
+
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        android:background="@drawable/shape_login_edit_cir_grey"
+        >
+
+        <EditText
+            android:id="@+id/et_signcode"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:hint="请输入签到码或手机号码"
+            android:layout_marginLeft="10dp"
+            android:textSize="14sp"
+            android:gravity="center_vertical"
+            android:inputType="numberSigned"
+            android:layout_weight="1"
+            />
+
+        <ImageView
+            android:id="@+id/iv_zxing"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_sign_zxing"
+            android:padding="8dp"
+            />
+
+        <ImageView
+            android:id="@+id/iv_ai"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_sign_ai"
+            android:layout_marginRight="0dp"
+            android:layout_marginLeft="0dp"
+            android:padding="8dp"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_sign_btn"
+        android:layout_width="180dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/cardview"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/shape_login_btn_cir_blue_h20"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:text="开始签到"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        />
+
+</LinearLayout>

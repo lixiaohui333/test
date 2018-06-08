@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_all"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/include_list_empty_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="50dp"
+            android:gravity="center" />
+
+        <com.meeting.client.ui.view.pullrefresh.PullToRefreshListView
+            android:id="@+id/listView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:fastScrollEnabled="false"
+            android:footerDividersEnabled="false"
+            android:overScrollMode="never"
+            android:scrollingCache="true"
+            android:smoothScrollbar="true"
+            android:visibility="visible" />
+
+
+        <include
+            layout="@layout/include_progress_view"
+            android:visibility="gone" />
+    </FrameLayout>
+
+</LinearLayout>

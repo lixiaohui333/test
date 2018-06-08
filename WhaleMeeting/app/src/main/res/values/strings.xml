@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">鲸鱼签到App</string>
+
+
+    <!-- pullrefresh -->
+    <string name="pushmsg_center_no_more_msg">没有更多了</string>
+    <string name="pushmsg_center_pull_down_text">下拉刷新</string>
+    <string name="pushmsg_center_pull_down_update_time">最后更新时间 :</string>
+    <string name="pushmsg_center_load_more_ongoing_text">加载中…</string>
+
+    <string name="pull_to_refresh_header_hint_normal">@string/pushmsg_center_pull_down_text</string>
+    <string name="pull_to_refresh_header_hint_normal2">上拉加载更多</string>
+    <string name="pull_to_refresh_header_hint_ready">松开刷新</string>
+    <string name="pull_to_refresh_header_hint_loading">@string/pushmsg_center_load_more_ongoing_text</string>
+    <string name="pull_to_refresh_header_last_time">@string/pushmsg_center_pull_down_update_time</string>
+
+    <string name="click_to_reload_more">点击重新加载</string>
+
+</resources>
