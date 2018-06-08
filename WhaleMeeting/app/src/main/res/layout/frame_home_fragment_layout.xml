@@ -7,12 +7,16 @@
     <com.andview.refreshview.XRefreshView
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#fff"
+        >
 
-        <ListView
-            android:id="@+id/lv"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            />
 
 
     </com.andview.refreshview.XRefreshView>

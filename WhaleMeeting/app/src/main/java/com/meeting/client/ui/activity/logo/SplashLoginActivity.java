@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.meeting.client.R;
 import com.meeting.client.domain.logo.SplashLogoHR;
 import com.meeting.client.ui.activity.frame.FrameActivityMain;
-import com.meeting.client.ui.activity.frame.home.ListActivityMain;
+import com.meeting.client.ui.activity.sign.SignMeetUserListActivity;
 import com.meeting.client.ui.base.BaseFragmentActivity;
 import com.meeting.client.ui.present.logo.login.LoginContract;
 import com.meeting.client.ui.present.logo.login.LoginNetModel;
@@ -48,7 +48,7 @@ public class SplashLoginActivity extends BaseFragmentActivity<LoginPresent, Logi
     @Override
     protected void initUI() {
 
-        goactivity(ListActivityMain.class);
+        
 
 
         etUsername.addTextChangedListener(new TextWatcher() {

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/xrefreshview_footer_content"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:layout_gravity="center_horizontal"
+    android:background="@android:color/white"
+    android:padding="2dp">
+
+    <ProgressBar
+        android:id="@+id/xrefreshview_footer_progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:indeterminateDrawable="@anim/loadmore_loading_progressbar_anim"
+        android:visibility="gone"
+        />
+
+    <ImageView
+        android:id="@+id/iv_loading"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/load_more_loading"
+        />
+
+<LinearLayout
+    android:id="@+id/ll_dixian"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:orientation="horizontal"
+    android:visibility="visible"
+    >
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="20dp"
+        android:background="#E6E6E6"
+        />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/tv_dixian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="这是我的底线"
+            android:textSize="13sp"
+            android:textColor="@color/color_text_999"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="3dp"
+            android:layout_above="@+id/tv_dixian"
+            android:src="@drawable/refresh_no_more_data_icon"
+            />
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="10dp"
+        android:background="#E6E6E6"
+        />
+
+
+</LinearLayout>
+    <TextView
+        android:id="@+id/xrefreshview_footer_click_textview"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="" />
+
+</RelativeLayout>

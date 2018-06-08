@@ -38,7 +38,7 @@
                 android:layout_marginRight="30dp"
                 android:background="@drawable/shape_frame_edit_cir_search"
                 android:gravity="center_vertical"
-                android:hint="搜索活动"
+                android:hint="搜索姓名、手机号"
                 android:paddingLeft="20dp"
                 android:singleLine="true"
                 android:textColorHint="@color/color_text_666"
@@ -55,8 +55,9 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             app:tabGravity="fill"
-            app:tabIndicatorColor="@android:color/transparent"
+            app:tabIndicatorColor="#fff"
             app:tabMode="fixed"
+            android:layout_marginBottom="5dp"
             app:tabSelectedTextColor="#fff"
             app:tabTextColor="#B5CCFF"/>
 

@@ -5,7 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/WhaleMeeting.iml" filepath="$PROJECT_DIR$/WhaleMeeting.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/facesdk/facesdk.iml" filepath="$PROJECT_DIR$/facesdk/facesdk.iml" />
-      <module fileurl="file://$PROJECT_DIR$/xrefreshlibrary/xrefreshlibrary.iml" filepath="$PROJECT_DIR$/xrefreshlibrary/xrefreshlibrary.iml" />
+      <module fileurl="file://E:\svn\whale\test\WhaleMeeting\xrefreshlibrary\xrefreshlibrary.iml" filepath="E:\svn\whale\test\WhaleMeeting\xrefreshlibrary\xrefreshlibrary.iml" />
     </modules>
   </component>
 </project>

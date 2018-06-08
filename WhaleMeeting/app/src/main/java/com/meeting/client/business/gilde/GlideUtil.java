@@ -51,6 +51,26 @@ public class GlideUtil {
     }
 
 
+
+    public static void displayAsGif(ImageView view, int resId,boolean gif) {
+
+        Context ct = BaseFragmentActivity.activity;
+        if (ct == null) {
+            ct = UiUtil.getContext();
+        }
+        GlideRequest requests;
+
+        if(gif) {
+            requests = GlideApp
+                    .with(ct).asGif();
+        }else{
+            requests = GlideApp
+                    .with(ct).asBitmap();
+        }
+        requests.load(resId).into(view);
+    }
+
+
     private static void display(ImageView view, String url,boolean isCircle) {
 
         Context ct = BaseFragmentActivity.activity;

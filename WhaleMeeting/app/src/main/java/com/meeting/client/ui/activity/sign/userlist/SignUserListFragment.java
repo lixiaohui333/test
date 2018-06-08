@@ -1,4 +1,4 @@
-package com.meeting.client.ui.activity.frame.home;
+package com.meeting.client.ui.activity.sign.userlist;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,15 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.andview.refreshview.XRefreshView;
 import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
 import com.meeting.client.R;
+import com.meeting.client.business.gilde.GlideApp;
+import com.meeting.client.business.gilde.GlideRoundTransform;
 import com.meeting.client.domain.eventbus.EventMessage;
-import com.meeting.client.ui.activity.sign.SignMainActivity;
 import com.meeting.client.ui.base.BaseFragment;
-import com.meeting.client.ui.base.BaseFragmentActivity;
 import com.meeting.client.ui.view.pullload.CustomGifHeader;
 import com.meeting.client.ui.view.pullload.NoMoreDataFooterView;
 
@@ -33,7 +34,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/4/13.
  */
 
-public class FrameFragmentFirst extends BaseFragment {
+public class SignUserListFragment extends BaseFragment {
 
 
     @BindView(R.id.recycler)
@@ -100,6 +101,8 @@ public class FrameFragmentFirst extends BaseFragment {
         xRefreshView.enableRecyclerViewPullUp(true);
         xRefreshView.enablePullUpWhenLoadCompleted(true);
 
+        recyclerView.getItemAnimator().setChangeDuration(300);
+        recyclerView.getItemAnimator().setMoveDuration(300);
 
         xRefreshView.setOnRecyclerViewScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -203,7 +206,7 @@ public class FrameFragmentFirst extends BaseFragment {
     @Override
     protected void getEventMessage(EventMessage message) {
         super.getEventMessage(message);
-        if (message.method.equals(mType+"")) {
+        if (message.method.equals(mType + "")) {
             showToast("" + mType + ":" + message.text);
             xRefreshView.startRefresh();
         }
@@ -226,20 +229,25 @@ public class FrameFragmentFirst extends BaseFragment {
 
     public class SimpleAdapter extends BaseRecyclerAdapter<SimpleAdapter.SimpleAdapterViewHolder> {
 
+        private int opened = -1;
+
+
         @Override
-        public void onBindViewHolder(SimpleAdapterViewHolder holder, int position, boolean isItem) {
+        public void onBindViewHolder(final SimpleAdapterViewHolder holder, int position, boolean isItem) {
             String s = datas.get(position);
-            holder.tvSignBtn.setText("签到:" + position + " :" + s);
+            holder.tvNickname.setText("name:" + s);
 
             holder.ivTopHead.setVisibility(position == 0 ? View.VISIBLE : View.GONE);
-            holder.cardview.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    BaseFragmentActivity.activity.goactivity(SignMainActivity.class);
-                }
-            });
+
+
+
+            holder.bindView(position);
+
+            GlideApp.with(ct).load("https://img3.doubanio.com/view/photo/s_ratio_poster/public/p1910900710.jpg").transform(new GlideRoundTransform(ct)).into(holder.ivHead);
 
         }
+
+
 
         @Override
         public int getAdapterItemViewType(int position) {
@@ -260,23 +268,35 @@ public class FrameFragmentFirst extends BaseFragment {
         @Override
         public SimpleAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType, boolean isItem) {
             View v = LayoutInflater.from(parent.getContext()).inflate(
-                    R.layout.item_gv_active, parent, false);
+                    R.layout.item_sign_userlist, parent, false);
             SimpleAdapterViewHolder vh = new SimpleAdapterViewHolder(v, true);
             return vh;
         }
 
-        public class SimpleAdapterViewHolder extends RecyclerView.ViewHolder {
+        public class SimpleAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
 
             @BindView(R.id.iv_top_head)
-            public ImageView ivTopHead;
-            @BindView(R.id.tv_line)
-            public TextView tvLine;
-            @BindView(R.id.tv_location)
-            public TextView tvLocation;
+            ImageView ivTopHead;
+            @BindView(R.id.tv_nickname)
+            TextView tvNickname;
+            @BindView(R.id.tv_username)
+            TextView tvUsername;
+            @BindView(R.id.iv_call_phone)
+            ImageView ivCallPhone;
+            @BindView(R.id.iv_head)
+            ImageView ivHead;
+            @BindView(R.id.tv_phonenum)
+            TextView tvPhonenum;
+            @BindView(R.id.tv_company)
+            TextView tvCompany;
+            @BindView(R.id.tv_post)
+            TextView tvPost;
+            @BindView(R.id.ll_bootom)
+            LinearLayout llBootom;
             @BindView(R.id.cardview)
-            public CardView cardview;
-            @BindView(R.id.tv_sign_btn)
-            public TextView tvSignBtn;
+            CardView cardview;
+            @BindView(R.id.iv_arrow)
+            ImageView ivArrow;
 
             public int position;
 
@@ -285,9 +305,43 @@ public class FrameFragmentFirst extends BaseFragment {
                 if (isItem) {
 
                     ButterKnife.bind(this, itemView);
+                    cardview.setOnClickListener(this);
                 }
 
             }
+
+            /**
+             * 此方法实现列表数据的绑定和item的展开/关闭
+             */
+            void bindView(int pos) {
+                if (pos == opened){
+                    llBootom.setVisibility(View.VISIBLE);
+                    ivArrow.setImageResource(R.drawable.ic_sign_up);
+
+                } else{
+                    llBootom.setVisibility(View.GONE);
+                    ivArrow.setImageResource(R.drawable.ic_sign_down);
+                }
+            }
+            /**
+             * item的点击事件
+             * @param v
+             */
+            @Override
+            public void onClick(View v) {
+                if (opened == getAdapterPosition()) {
+                    //当点击的item已经被展开了, 就关闭.
+                    opened = -1;
+                    notifyItemChanged(getAdapterPosition());
+                } else {
+                    int oldOpened = opened;
+                    opened = getAdapterPosition();
+                    notifyItemChanged(oldOpened);
+                    notifyItemChanged(opened);
+                }
+            }
+
+
         }
 
     }

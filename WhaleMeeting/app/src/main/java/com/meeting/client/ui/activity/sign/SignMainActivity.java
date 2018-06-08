@@ -253,4 +253,9 @@ public class SignMainActivity extends BaseFragmentActivity<SignPresent, SignNetM
         }
 
     }
+
+    @OnClick(R.id.ll_sign_userlist)
+    public void onClickedUserList() {
+        goactivity(SignMeetUserListActivity.class);
+    }
 }
