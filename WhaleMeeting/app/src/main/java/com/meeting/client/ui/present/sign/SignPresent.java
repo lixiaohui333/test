@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import com.meeting.client.business.net.NetTaskModel;
 import com.meeting.client.comm.LogHelper;
 import com.meeting.client.domain.base.BaseHR;
+import com.meeting.client.domain.home.SignLocItemDomain;
+import com.meeting.client.domain.home.SignUserItemDomain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,16 +30,16 @@ public class SignPresent implements SignContract.Presenter, SignLoadTaskCallBack
     }
 
     @Override
-    public void onSuccess(List datas) {
+    public void onSuccess(List<SignLocItemDomain> datas) {
         if (addview != null) {
             addview.resultSignDetail(datas);
             addview.hideProgress();
         }
     }
 
-    public void onSuccessUserInfo(String name) {
+    public void onSuccessUserInfo(SignUserItemDomain domain) {
         if (addview != null) {
-            addview.resultUserInfo(name);
+            addview.resultUserInfo(domain);
             addview.hideProgress();
         }
     }
@@ -107,20 +109,21 @@ public class SignPresent implements SignContract.Presenter, SignLoadTaskCallBack
     }
 
 
+
     @Override
-    public void requestSignDetail() {
-        Disposable disposable = netTask.execute(this);
+    public void requestSignDetail(String meetingId) {
+        Disposable disposable = netTask.execute(this,meetingId);
         disposables.add(disposable);
     }
 
     @Override
-    public void requestSignUserInfo(String code) {
+    public void requestSignUserInfo(String meetingId,String signLocId,String code) {
 
         if(TextUtils.isEmpty(code)){
             addview.codeEmpty();
         }else {
 
-            Disposable disposable = netTask.executeUsercode(this, code);
+            Disposable disposable = netTask.executeUsercode(this,meetingId,signLocId, code);
             disposables.add(disposable);
 
         }

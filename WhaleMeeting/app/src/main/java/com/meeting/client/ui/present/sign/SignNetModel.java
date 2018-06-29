@@ -1,25 +1,26 @@
 package com.meeting.client.ui.present.sign;
 
+import com.meeting.client.business.net.ApiService;
+import com.meeting.client.business.net.ApiServiceInstance;
 import com.meeting.client.business.net.LoadTaskCallBack;
 import com.meeting.client.business.net.NetTaskModel;
 import com.meeting.client.comm.LogHelper;
+import com.meeting.client.comm.MyViewTool;
+import com.meeting.client.domain.base.BaseHR;
+import com.meeting.client.domain.home.SignLocItemDomain;
+import com.meeting.client.domain.home.SignUserItemDomain;
+import com.meeting.client.domain.logo.SplashLoginHR;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-import static com.meeting.client.comm.Config.HTTP_HOST;
+import retrofit2.HttpException;
 
 /**
  * Created by Administrator on 2018/3/29.
@@ -27,106 +28,119 @@ import static com.meeting.client.comm.Config.HTTP_HOST;
 
 public class SignNetModel implements NetTaskModel {
 
-    public static final String HOST = HTTP_HOST;
-
     public SignNetModel() {
     }
 
-    private Retrofit retrofit;
-
-    private void createRetrofit() {
-        retrofit = new Retrofit.Builder().baseUrl(HOST)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create()).build();
-    }
 
     public Disposable executeUsercode(final SignLoadTaskCallBack taskCallback, final String... params) {
 
-        Disposable disposable = Observable.create(new ObservableOnSubscribe<Boolean>() {
-            @Override
-            public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
+//signLocId
 
-                Thread.sleep(1000);
-                emitter.onNext(true);
-                emitter.onComplete();
-            }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Boolean>() {
+        SplashLoginHR loginHR = MyViewTool.getLoginHR();
+        if (loginHR == null) {
+            taskCallback.onFailed();
+            return null;
+        }
+
+        ApiService apiService = ApiServiceInstance.getInstance();
+        //userInfoId={userInfoId}&roleType={roleType}&meeting_status={meeting_status}
+        Map<String, String> paramsMap = new HashMap<>();
+        paramsMap.put("signerAdministratorId", loginHR.Id);
+        paramsMap.put("role", loginHR.Role_Type + "");
+
+        paramsMap.put("SignType", "2");
+
+        paramsMap.put("MeetingId", params[0]);
+        paramsMap.put("Signer_Drop_Id", params[1]);
+        paramsMap.put("KeyWord", params[2]);
+
+
+        Disposable disposable = apiService.signinchecked(paramsMap).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<BaseHR<List<SignUserItemDomain>>>() {
                     @Override
-                    public void accept(Boolean islogin) throws Exception {
-                        LogHelper.i("accept:islogin:" + islogin);
-                        if (islogin) {
-                            taskCallback.onSuccessUserInfo("lxh");
+                    public void accept(BaseHR<List<SignUserItemDomain>> hrBaseHR) throws Exception {
+                        if (hrBaseHR.Status == BaseHR.HTTP_OK && hrBaseHR.Data.size() > 0) {
+                            taskCallback.onSuccessUserInfo(hrBaseHR.Data.get(0));
                         } else {
-                            taskCallback.onSysError(null);
+                            taskCallback.onSysErrorUser(hrBaseHR);
                         }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        taskCallback.onFailed();
-                        LogHelper.i("Consumer accept onFailed:" + throwable.getMessage());
+
+                        taskCallback.onFailedUser();
+                        if (throwable instanceof HttpException) {
+                            int code = ((HttpException) throwable).response().code();
+                            LogHelper.i(ApiServiceInstance.TAG, "Consumer HttpException code:" + code);
+                        }
                     }
                 }, new Action() {
                     @Override
                     public void run() throws Exception {
+                        LogHelper.i(ApiServiceInstance.TAG, "Consumer accept Action");
                         taskCallback.onFinish();
-                        LogHelper.i("Action run onFinish");
                     }
                 }, new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
+                        LogHelper.i(ApiServiceInstance.TAG, "Consumer accept onStart");
                         taskCallback.onStart();
-                        LogHelper.i("Consumer accept onStart");
                     }
                 });
 
+
         return disposable;
     }
+
     @Override
     public Disposable execute(final LoadTaskCallBack taskCallback, final String... params) {
 
-        Disposable disposable = Observable.create(new ObservableOnSubscribe<Boolean>() {
-            @Override
-            public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
+        SplashLoginHR loginHR = MyViewTool.getLoginHR();
+        if (loginHR == null) {
+            taskCallback.onFailed();
+            return null;
+        }
 
-                Thread.sleep(1000);
-                emitter.onNext(true);
-                emitter.onComplete();
-            }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Boolean>() {
+        ApiService apiService = ApiServiceInstance.getInstance();
+        //userInfoId={userInfoId}&roleType={roleType}&meeting_status={meeting_status}
+        Map<String, String> paramsMap = new HashMap<>();
+        paramsMap.put("signerAdministratorId", loginHR.Id);
+        paramsMap.put("role", loginHR.Role_Type + "");
+        paramsMap.put("meeting_Id", params[0]);
+
+
+        Disposable disposable = apiService.getSignLocList(paramsMap).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<BaseHR<List<SignLocItemDomain>>>() {
                     @Override
-                    public void accept(Boolean islogin) throws Exception {
-                        LogHelper.i("accept:islogin:" + islogin);
-                        if (islogin) {
-                            List<String> datas = new ArrayList<>();
-                            datas.add("春熙路A口");
-                            datas.add("春熙路B口");
-                            datas.add("春熙路C口");
-                            taskCallback.onSuccess(datas);
+                    public void accept(BaseHR<List<SignLocItemDomain>> hrBaseHR) throws Exception {
+                        if (hrBaseHR.Status == BaseHR.HTTP_OK) {
+                            taskCallback.onSuccess(hrBaseHR.Data);
                         } else {
-
-                            taskCallback.onSysError(null);
+                            taskCallback.onSysError(hrBaseHR);
                         }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
+
                         taskCallback.onFailed();
-                        LogHelper.i("Consumer accept onFailed:" + throwable.getMessage());
+                        if (throwable instanceof HttpException) {
+                            int code = ((HttpException) throwable).response().code();
+                            LogHelper.i(ApiServiceInstance.TAG, "Consumer HttpException code:" + code);
+                        }
                     }
                 }, new Action() {
                     @Override
                     public void run() throws Exception {
+                        LogHelper.i(ApiServiceInstance.TAG, "Consumer accept Action");
                         taskCallback.onFinish();
-                        LogHelper.i("Action run onFinish");
                     }
                 }, new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
+                        LogHelper.i(ApiServiceInstance.TAG, "Consumer accept onStart");
                         taskCallback.onStart();
-                        LogHelper.i("Consumer accept onStart");
                     }
                 });
 

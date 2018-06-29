@@ -187,8 +187,8 @@ public abstract class BaseFragment<T extends BasePresenter, E extends NetTaskMod
     }
 
     public void apiError(BaseHR baseHR) {
-        if (baseHR.sysStatus != BaseHR.HTTP_OK || baseHR.apiStatus != BaseHR.HTTP_OK) {
-            showToastError(baseHR.info);
+        if (baseHR.Status != BaseHR.HTTP_OK ) {
+            showToastError(baseHR.Message);
         }
     }
 

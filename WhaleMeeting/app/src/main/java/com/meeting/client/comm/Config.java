@@ -1,5 +1,7 @@
 package com.meeting.client.comm;
 
+import com.meeting.client.domain.logo.SplashLoginHR;
+
 /**
  * Created by Administrator on 2018/3/30.
  */
@@ -9,18 +11,17 @@ public class Config {
     public static boolean isLog = true;
 
 
-    public final static String HTTP_HOST = "http://192.168.33.144/";
+    public final static String HTTP_HOST = "http://192.168.34.114:1836/";
 
+    public static SplashLoginHR LOGINHR = null;
 
-    public final static String GITHUB_ADDRESS = "https://github.com/lixiaohui333/interview";
-
-
-    public final static String ALIPAY_ADDRESS = "FKX02331ZH5FNUZV1FJI4D";
 
     public final static String ALIPAY_PACKAGENAME = "com.eg.android.AlipayGphone";
 
 
     public static final String SP_SURESIGN = "SP_SURESIGN";
+
+
     public static final String SP_SIGNPRINT = "SP_SIGNPRINT";
     public static final String SP_COLLECTPHOTO = "SP_COLLECTPHOTO";
     public static final String SP_UPDATEPHOTO = "SP_UPDATEPHOTO";
@@ -39,6 +40,7 @@ public class Config {
     public static String licenseFileName = "idl-license.face-android";
 
 
+    public static final String SP_LOGINHR = "SP_LOGINHR";
 
 
 }

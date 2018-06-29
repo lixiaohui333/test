@@ -6,29 +6,26 @@ public class BaseHR<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static final int HTTP_OK = 0;
+    public static final int HTTP_OK = 1;
 
-    public int sysStatus = 0;
+    public int Status = 0;
+    public String Message ;
 
-    public int apiStatus = 0;
+    public long TimeStamp;
 
-    public String info;
-
-    public long timestamp;
-
-    public T data;
+    public T Data;
 
     public BaseHR() {
     }
 
+
     @Override
     public String toString() {
         return "BaseHR{" +
-                "sysStatus=" + sysStatus +
-                ", apiStatus=" + apiStatus +
-                ", info='" + info + '\'' +
-                ", timestamp=" + timestamp +
-                ", data=" + data +
+                "Status=" + Status +
+                ", Message=" + Message +
+                ", TimeStamp=" + TimeStamp +
+                ", Data=" + Data +
                 '}';
     }
 }

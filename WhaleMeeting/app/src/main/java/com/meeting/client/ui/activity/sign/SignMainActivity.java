@@ -14,10 +14,13 @@ import android.widget.TextView;
 
 import com.google.zxing.client.android.CaptureActivity;
 import com.meeting.client.R;
+import com.meeting.client.comm.Config;
 import com.meeting.client.domain.base.BaseHR;
 import com.meeting.client.domain.eventbus.EventMessage;
+import com.meeting.client.domain.home.MeetingItemDomain;
+import com.meeting.client.domain.home.SignLocItemDomain;
+import com.meeting.client.domain.home.SignUserItemDomain;
 import com.meeting.client.domain.sign.UserInfoDomain;
-import com.meeting.client.ui.activity.sign.aiface.DetectActivity;
 import com.meeting.client.ui.base.BaseFragmentActivity;
 import com.meeting.client.ui.dialog.DialogHelper;
 import com.meeting.client.ui.present.sign.SignContract;
@@ -44,8 +47,23 @@ public class SignMainActivity extends BaseFragmentActivity<SignPresent, SignNetM
     @BindView(R.id.et_signcode)
     EditText etSigncode;
 
+
+    MeetingItemDomain itemDomain;
+
+
+    SignLocItemDomain signLocItemDomain;
+
+
     @Override
     protected boolean intentData() {
+
+        itemDomain = (MeetingItemDomain) getIntent().getSerializableExtra(Config.EXTRA_DOMAIN);
+
+        if (itemDomain == null) {
+            finish();
+            return false;
+        }
+
         return true;
     }
 
@@ -71,7 +89,7 @@ public class SignMainActivity extends BaseFragmentActivity<SignPresent, SignNetM
 
     @Override
     protected void loadInitData() {
-        mPresenter.requestSignDetail();
+        mPresenter.requestSignDetail(itemDomain.Id);
     }
 
 
@@ -117,10 +135,10 @@ public class SignMainActivity extends BaseFragmentActivity<SignPresent, SignNetM
     }
 
 
-    List<String> loactions = null;
+    List<SignLocItemDomain> loactions = null;
 
     @Override
-    public void resultSignDetail(List<String> loactions) {
+    public void resultSignDetail(List<SignLocItemDomain> loactions) {
 
         this.loactions = loactions;
         getLocationDialog();
@@ -128,25 +146,26 @@ public class SignMainActivity extends BaseFragmentActivity<SignPresent, SignNetM
     }
 
     @Override
-    public void resultUserInfo(String name) {
+    public void resultUserInfo(SignUserItemDomain domain) {
 
 
         UserInfoDomain user = new UserInfoDomain();
-        String headUrl = null;
 
-        user.id = "1";
-        user.company = "世纪阳天";
-        user.signStatus = false;
-        user.post = "CEO";
-        user.name = "张三";
-        user.phoneNum = "13000000000";
-        user.head = "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p480747492.webp";
+        user.id = domain.Signer_Drop_Id;
+        user.company = domain.Company;
 
-        headUrl = "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p1606727862.webp";
+        if(domain.Signer_Number==0) {
+            user.signStatus = false;
+        }else{
+            user.signStatus = true;
+        }
+        user.post = domain.Position;
+        user.name = domain.User_Name;
+        user.phoneNum = domain.Phone;
+        user.head = domain.Head;
+
 
         user.tempSignName = tvSignSelect.getText().toString();
-
-
         SignUserInfoActivity.goActivity(this, user, null);
     }
 
@@ -166,8 +185,10 @@ public class SignMainActivity extends BaseFragmentActivity<SignPresent, SignNetM
         locationDialog = DialogHelper.signLocationDialog(ct, loactions, new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectName = loactions.get(position);
-                tvSignSelect.setText(selectName);
+                SignLocItemDomain selectName = loactions.get(position);
+
+                signLocItemDomain = selectName;
+                tvSignSelect.setText(selectName.Signer_Drop_Name);
                 lactionFlag = true;
 
             }
@@ -212,8 +233,6 @@ public class SignMainActivity extends BaseFragmentActivity<SignPresent, SignNetM
     }
 
     private void gostartQR() {
-//        Intent intent = new Intent(this, CaptureActivity.class);
-//        startActivityForResult(intent, 0);
         goactivity(CaptureActivity.class);
     }
 
@@ -222,7 +241,8 @@ public class SignMainActivity extends BaseFragmentActivity<SignPresent, SignNetM
     protected void getEventMessage(EventMessage message) {
         super.getEventMessage(message);
 
-        mPresenter.requestSignUserInfo(message.text);
+        etSigncode.setText(message.text);
+        onClickedSign();
 
     }
 
@@ -230,29 +250,29 @@ public class SignMainActivity extends BaseFragmentActivity<SignPresent, SignNetM
     public void onClickedSign() {
 
         String edtCode = etSigncode.getText().toString();
-        mPresenter.requestSignUserInfo(edtCode);
+        mPresenter.requestSignUserInfo(itemDomain.Id,signLocItemDomain.Signer_Drop_Id,edtCode);
     }
 
-    @OnClick(R.id.iv_ai)
-    public void onClickedAi() {
-
-        if (!AndPermission.hasPermission(this, Manifest.permission.CAMERA)) {
-
-            AndPermission.with(this).requestCode(100).permission(Manifest.permission.CAMERA).callback(new PermissionListener() {
-                @Override
-                public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
-                    goactivity(DetectActivity.class);
-                }
-
-                @Override
-                public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
-                }
-            }).start();
-        } else {
-            goactivity(DetectActivity.class);
-        }
-
-    }
+//    @OnClick(R.id.iv_ai)
+//    public void onClickedAi() {
+//
+//        if (!AndPermission.hasPermission(this, Manifest.permission.CAMERA)) {
+//
+//            AndPermission.with(this).requestCode(100).permission(Manifest.permission.CAMERA).callback(new PermissionListener() {
+//                @Override
+//                public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
+//                    goactivity(DetectActivity.class);
+//                }
+//
+//                @Override
+//                public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
+//                }
+//            }).start();
+//        } else {
+//            goactivity(DetectActivity.class);
+//        }
+//
+//    }
 
     @OnClick(R.id.ll_sign_userlist)
     public void onClickedUserList() {

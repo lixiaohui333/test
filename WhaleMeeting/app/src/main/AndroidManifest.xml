@@ -15,8 +15,9 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="com.meeting.client.ui.activity.logo.SplashLogoActivity"
-            android:theme="@style/SplashTheme"
+            android:name="com.meeting.client.ui.activity.logo.SplashLoginActivity"
+            android:theme="@style/MyAppTheme"
+            android:launchMode="singleTask"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -25,10 +26,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.meeting.client.ui.activity.logo.SplashLoginActivity"
-                  android:theme="@style/MyAppTheme"
-                  android:launchMode="singleTask"
-            />
+        <!--<activity android:name="com.meeting.client.ui.activity.logo.SplashLoginActivity"-->
+                  <!--android:theme="@style/MyAppTheme"-->
+                  <!--android:launchMode="singleTask"-->
+            <!--/>-->
 
         <activity android:name="com.meeting.client.ui.activity.frame.FrameActivityMain"
                   android:theme="@style/MyAppTheme"

@@ -1,6 +1,6 @@
 package com.meeting.client.ui.present.logo.login;
 
-import com.meeting.client.domain.logo.SplashLogoHR;
+import com.meeting.client.domain.logo.SplashLoginHR;
 import com.meeting.client.ui.base.BaseNetView;
 import com.meeting.client.ui.base.BasePresenter;
 
@@ -12,7 +12,8 @@ public class LoginContract {
 
     public interface NetView extends BaseNetView {
 
-        void setUserInfo(SplashLogoHR userInfo);
+        void setUserInfo(SplashLoginHR userInfo);
+
 
     }
 

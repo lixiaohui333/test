@@ -275,6 +275,7 @@
             android:layout_marginRight="0dp"
             android:layout_marginLeft="0dp"
             android:padding="8dp"
+            android:visibility="gone"
             />
 
     </LinearLayout>

@@ -3,18 +3,21 @@ package com.meeting.client.ui.present.logo.login;
 import com.meeting.client.business.net.LoadTaskCallBack;
 import com.meeting.client.business.net.NetTaskModel;
 import com.meeting.client.comm.LogHelper;
+import com.meeting.client.comm.util.GsonUtil;
 import com.meeting.client.domain.base.BaseHR;
-import com.meeting.client.domain.logo.SplashLogoHR;
+import com.meeting.client.domain.logo.SplashLoginHR;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Administrator on 2018/3/29.
  */
-public class LoginPresent implements LoginContract.Presenter, LoadTaskCallBack<SplashLogoHR> {
+public class LoginPresent implements LoginContract.Presenter, LoadTaskCallBack<SplashLoginHR> {
 
     protected NetTaskModel netTask;
 
@@ -28,7 +31,7 @@ public class LoginPresent implements LoginContract.Presenter, LoadTaskCallBack<S
     }
 
     @Override
-    public void onSuccess(SplashLogoHR data) {
+    public void onSuccess(SplashLoginHR data) {
         if (addview != null) {
 
             addview.setUserInfo(data);
@@ -68,6 +71,8 @@ public class LoginPresent implements LoginContract.Presenter, LoadTaskCallBack<S
 
     @Override
     public void toLogin(String username, String passwd) {
+
+
         Disposable disposable = netTask.execute(this,username,passwd);
         disposables.add(disposable);
     }

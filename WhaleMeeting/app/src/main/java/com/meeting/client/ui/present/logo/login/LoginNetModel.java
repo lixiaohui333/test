@@ -1,22 +1,24 @@
 package com.meeting.client.ui.present.logo.login;
 
+import com.meeting.client.business.net.ApiService;
+import com.meeting.client.business.net.ApiServiceInstance;
 import com.meeting.client.business.net.LoadTaskCallBack;
 import com.meeting.client.business.net.NetTaskModel;
 import com.meeting.client.comm.LogHelper;
+import com.meeting.client.domain.base.BaseHR;
+import com.meeting.client.domain.logo.SplashLoginHR;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
+import java.util.HashMap;
+import java.util.Map;
+
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-import static com.meeting.client.comm.Config.HTTP_HOST;
+import retrofit2.HttpException;
 
 /**
  * Created by Administrator on 2018/3/29.
@@ -24,66 +26,79 @@ import static com.meeting.client.comm.Config.HTTP_HOST;
 
 public class LoginNetModel implements NetTaskModel {
 
-    public static final String HOST = HTTP_HOST;
+
+    private ApiService apiService = null;
 
     public LoginNetModel() {
+        createRetrofit();
     }
 
-    private Retrofit retrofit;
-
     private void createRetrofit() {
-        retrofit = new Retrofit.Builder().baseUrl(HOST)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create()).build();
+        apiService = ApiServiceInstance.getInstance();
     }
 
     @Override
-    public Disposable execute(final LoadTaskCallBack taskCallback,final String... params) {
+    public Disposable execute(final LoadTaskCallBack taskCallback, final String... params) {
 
-        Disposable disposable = Observable.create(new ObservableOnSubscribe<Boolean>() {
+
+        Map<String, String> bodyMap = new HashMap<>();
+        bodyMap.put("UserName", params[0]);
+        bodyMap.put("Password", params[1]);
+        bodyMap.put("ClientType", "3");
+        bodyMap.put("grant_type", "password");
+
+
+        Disposable disposable = apiService.login(bodyMap).flatMap(new Function<BaseHR<SplashLoginHR>, ObservableSource<BaseHR<SplashLoginHR>>>() {
             @Override
-            public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
+            public ObservableSource<BaseHR<SplashLoginHR>> apply(BaseHR<SplashLoginHR> hrBaseHR) throws Exception {
 
-                String username = params[0];
-                LogHelper.i("username:"+username);
-                Thread.sleep(1000);
-                if("lxh".equals(username)){
-                    emitter.onNext(true);
-                }else{
-                    emitter.onNext(false);
-                }
-                emitter.onComplete();
+
+                return apiService.loginGetInfo();
+            }
+        }).map(new Function<BaseHR<SplashLoginHR>, BaseHR<SplashLoginHR>>() {
+            @Override
+            public BaseHR<SplashLoginHR> apply(BaseHR<SplashLoginHR> hrBaseHR) throws Exception {
+
+                return hrBaseHR;
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Boolean>() {
+                .subscribe(new Consumer<BaseHR<SplashLoginHR>>() {
                     @Override
-                    public void accept(Boolean islogin) throws Exception {
-                        LogHelper.i("accept:islogin:"+islogin);
-                        if (islogin) {
-                            taskCallback.onSuccess(null);
+                    public void accept(BaseHR<SplashLoginHR> hrBaseHR) throws Exception {
+                        LogHelper.i(ApiServiceInstance.TAG, hrBaseHR.toString());
+
+                        if (hrBaseHR.Status == BaseHR.HTTP_OK) {
+                            taskCallback.onSuccess(hrBaseHR.Data);
                         } else {
-                            taskCallback.onSysError(null);
+                            taskCallback.onSysError(hrBaseHR);
                         }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
+
+                        if (throwable instanceof HttpException) {
+                            int code = ((HttpException) throwable).response().code();
+                            LogHelper.i(ApiServiceInstance.TAG, "code:" + code);
+                        }
+
                         taskCallback.onFailed();
-                        LogHelper.i("Consumer accept onFailed:"+throwable.getMessage());
+                        LogHelper.i(ApiServiceInstance.TAG, "Consumer accept onFailed:" + throwable.getMessage());
                     }
                 }, new Action() {
                     @Override
                     public void run() throws Exception {
                         taskCallback.onFinish();
-                        LogHelper.i("Action run onFinish");
+                        LogHelper.i(ApiServiceInstance.TAG, "Action run onFinish");
                     }
                 }, new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
                         taskCallback.onStart();
-                        LogHelper.i("Consumer accept onStart");
+                        LogHelper.i(ApiServiceInstance.TAG, "Consumer accept onStart");
                     }
                 });
+
 
         return disposable;
     }

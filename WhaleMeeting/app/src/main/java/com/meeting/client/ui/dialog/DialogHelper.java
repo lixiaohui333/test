@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.meeting.client.R;
+import com.meeting.client.domain.home.SignLocItemDomain;
 import com.meeting.client.ui.base.adapter.CommonAdapter;
 import com.meeting.client.ui.base.adapter.ViewHolder;
 
@@ -23,7 +24,7 @@ public class DialogHelper {
     /**
      *选择签到点
      */
-    public static AlertDialog signLocationDialog(Context context, List<String> list, final AdapterView.OnItemClickListener clickListener) {
+    public static AlertDialog signLocationDialog(Context context, List<SignLocItemDomain> list, final AdapterView.OnItemClickListener clickListener) {
         final AlertDialog dialog = new AlertDialog.Builder(context, R.style.style_dailog_from_bottom).create();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.dialog_sign_location, null);
@@ -52,22 +53,22 @@ public class DialogHelper {
         return dialog;
     }
 
-    static class TodoAdapter extends CommonAdapter<String> {
+    static class TodoAdapter extends CommonAdapter<SignLocItemDomain> {
 
         public TodoAdapter(Context mContext) {
             super(mContext, R.layout.dialog_sign_item_text);
         }
 
         @Override
-        public void setData(List<String> data) {
+        public void setData(List<SignLocItemDomain> data) {
             this.mData = data;
             this.notifyDataSetChanged();
         }
 
         @Override
-        public void convert(ViewHolder holder, String item) {
+        public void convert(ViewHolder holder, SignLocItemDomain item) {
             TextView tv_singletext = holder.findView(R.id.tv_info);
-            tv_singletext.setText(item);
+            tv_singletext.setText(item.Signer_Drop_Name);
         }
     }
 

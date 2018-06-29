@@ -58,7 +58,7 @@ public abstract class BaseFragmentActivity<T extends BasePresenter, E extends Ne
         super.onCreate(savedInstanceState);
 
         ct = this;
-        activity = this;
+
         TAG = getClass().getName();
 
         initView();
@@ -93,8 +93,8 @@ public abstract class BaseFragmentActivity<T extends BasePresenter, E extends Ne
         if (baseHR == null)
             return;
 
-        if (baseHR.sysStatus != BaseHR.HTTP_OK || baseHR.apiStatus != BaseHR.HTTP_OK) {
-            showToastError(baseHR.info);
+        if (baseHR.Status != BaseHR.HTTP_OK ) {
+            showToastError(baseHR.Message);
         }
     }
 
@@ -118,6 +118,10 @@ public abstract class BaseFragmentActivity<T extends BasePresenter, E extends Ne
 
     public void goactivity(Class activity) {
         Intent in = new Intent(ct, activity);
+        goactivity(in);
+    }
+
+    public void goactivity(Intent in) {
         startActivity(in);
     }
 
@@ -176,6 +180,7 @@ public abstract class BaseFragmentActivity<T extends BasePresenter, E extends Ne
     @Override
     protected void onResume() {
         super.onResume();
+        activity = this;
 
     }
 

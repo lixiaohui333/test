@@ -28,7 +28,7 @@
                 android:id="@+id/rl_title"
                 layout="@layout/include_title_transparent"
                 android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
+                android:layout_height="47dp"
                 />
             <EditText
                 android:id="@+id/tv_search"

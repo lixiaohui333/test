@@ -54,10 +54,11 @@ public class GlideUtil {
 
     public static void displayAsGif(ImageView view, int resId,boolean gif) {
 
-        Context ct = BaseFragmentActivity.activity;
-        if (ct == null) {
-            ct = UiUtil.getContext();
-        }
+        Context ct  = UiUtil.getContext();
+//        Context ct = BaseFragmentActivity.activity;
+//        if (ct == null) {
+//            ct = UiUtil.getContext();
+//        }
         GlideRequest requests;
 
         if(gif) {

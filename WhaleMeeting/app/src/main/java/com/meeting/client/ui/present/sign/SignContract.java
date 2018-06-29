@@ -1,6 +1,8 @@
 package com.meeting.client.ui.present.sign;
 
 import com.meeting.client.domain.base.BaseHR;
+import com.meeting.client.domain.home.SignLocItemDomain;
+import com.meeting.client.domain.home.SignUserItemDomain;
 import com.meeting.client.ui.base.BaseNetView;
 import com.meeting.client.ui.base.BasePresenter;
 
@@ -14,9 +16,9 @@ public class SignContract {
 
     public interface NetView extends BaseNetView {
 
-        void resultSignDetail(List<String> loactions);
+        void resultSignDetail(List<SignLocItemDomain> loactions);
 
-        void resultUserInfo(String name);
+        void resultUserInfo(SignUserItemDomain domain);
 
         void errorUserInfo();
 
@@ -27,9 +29,9 @@ public class SignContract {
     }
 
     public interface Presenter extends BasePresenter<NetView> {
-        void requestSignDetail();
+        void requestSignDetail(String meetingId);
 
-        void requestSignUserInfo(String code);
+        void requestSignUserInfo(String meetingId,String signLocId,String code);
     }
 
 }
